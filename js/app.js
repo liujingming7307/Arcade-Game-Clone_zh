@@ -1,4 +1,4 @@
-// 这是我们的玩家要躲避的敌人 
+// 这是我们的玩家要躲避的敌人
 var Enemy = function() {
     // 要应用到每个敌人的实例的变量写在这里
     // 我们已经提供了一个来帮助你实现更多
@@ -17,15 +17,18 @@ Enemy.prototype.update = function(dt) {
     // 都是以同样的速度运行的
     this.x += this.speed * dt;
     if (this.x > 505) {
-        this.x = -101;
-        this.speed = Math.random() * 100 + 50;
-        this.y = Math.floor(Math.random() * 3) * 83 + 73;
+        this.reset();
     }
 };
 // 此为游戏必须的函数，用来在屏幕上画出敌人，
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+Enemy.prototype.reset = function() {
+    this.x = -101;
+    this.speed = Math.random() * 100 + 50;
+    this.y = Math.floor(Math.random() * 3) * 83 + 73;
+}
 // 现在实现你自己的玩家类
 var Player = function(){
     this.sprite = 'images/char-boy.png';
@@ -40,13 +43,12 @@ Player.prototype.update = function() {
     if(this.x<0) this.x=0;
     if(this.x>404) this.x=404;
     if(this.y>405) this.y=405;
-    if(this.y<73) this.y=405;
+    if(this.y<73) this.reset();
     //碰撞检测
     for(var i = 0 ; i < allEnemies.length ; i++){
         var bug = allEnemies[i];
         if(bug.x+bug.width>this.x && bug.y+bug.height>this.y && this.x+this.width>bug.x && this.y+this.height>bug.y) {
-            this.x = 202;
-            this.y = 405;
+            this.reset();
         }
     }
 };
@@ -54,6 +56,7 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 Player.prototype.handleInput = function(allowedKeys) {
+    console.log(allowedKeys);
     switch(allowedKeys){
         case 'left':
             this.x -= 101;
@@ -69,7 +72,10 @@ Player.prototype.handleInput = function(allowedKeys) {
             break;
     }
 };
-
+Player.prototype.reset = function (){
+    this.x = 202;
+    this.y = 405;
+}
 // 现在实例化你的所有对象
 // 把所有敌人的对象都放进一个叫 allEnemies 的数组里面
 // 把玩家对象放进一个叫 player 的变量里面
