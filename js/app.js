@@ -44,7 +44,7 @@ Player.prototype.update = function() {
     //碰撞检测
     for(var i = 0 ; i < allEnemies.length ; i++){
         var bug = allEnemies[i];
-        if(bug.x+bug.width>this.x && bug.y+bug.height>this.y && this.x+this.width>bug.x && this.y+this.height>bug.) {
+        if(bug.x+bug.width>this.x && bug.y+bug.height>this.y && this.x+this.width>bug.x && this.y+this.height>bug.y) {
             this.x = 202;
             this.y = 405;
         }
@@ -54,7 +54,6 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 Player.prototype.handleInput = function(allowedKeys) {
-    console.log(allowedKeys);
     switch(allowedKeys){
         case 'left':
             this.x -= 101;
